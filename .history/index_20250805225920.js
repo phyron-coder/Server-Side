@@ -49,32 +49,16 @@ function authorize(req, res, next) {
     });
 }
 
-function checkId(req, res, next) {
-    const courseId = req.params.courseId;
-    const course = database.courses.find((item) => {
-        return item.id === parseInt(courseId);
-    });
-    if (!course) {
-        return res.status(404).json({
-            status: 404,
-            message: 'Not Found'
-        });
-    }
-    next();
-}
-
-
-
 app.get('/courses', logger, (req, res) => {
     return res.send(req.query);
 });
-app.get('/courses/:courseId', checkId, (req, res) => {
+app.get('/courses/:courseId', (req, res) => {
     const courseId = req.params.courseId;
-    const course = database.courses.find((item) => {
+    const course = courses.find((item) => {
         return item.id === parseInt(courseId);
     })
 
-    return res.json(course);
+    return res.json(courseId);
 });
 app.post('/courses', authorize, (req, res) => {
     return res.send(req.body);

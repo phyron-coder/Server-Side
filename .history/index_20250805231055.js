@@ -51,10 +51,8 @@ function authorize(req, res, next) {
 
 function checkId(req, res, next) {
     const courseId = req.params.courseId;
-    const course = database.courses.find((item) => {
-        return item.id === parseInt(courseId);
-    });
-    if (!course) {
+
+    if (!courseId || isNaN(courseId)) {
         return res.status(404).json({
             status: 404,
             message: 'Not Found'

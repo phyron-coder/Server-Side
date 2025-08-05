@@ -51,13 +51,10 @@ function authorize(req, res, next) {
 
 function checkId(req, res, next) {
     const courseId = req.params.courseId;
-    const course = database.courses.find((item) => {
-        return item.id === parseInt(courseId);
-    });
-    if (!course) {
-        return res.status(404).json({
-            status: 404,
-            message: 'Not Found'
+    if (!courseId || isNaN(courseId)) {
+        return res.status(400).json({
+            status: 400,
+            message: 'Invalid course ID'
         });
     }
     next();
@@ -68,7 +65,7 @@ function checkId(req, res, next) {
 app.get('/courses', logger, (req, res) => {
     return res.send(req.query);
 });
-app.get('/courses/:courseId', checkId, (req, res) => {
+app.get('/courses/:courseId', (req, res) => {
     const courseId = req.params.courseId;
     const course = database.courses.find((item) => {
         return item.id === parseInt(courseId);
