@@ -29,7 +29,7 @@ function errorHandler(err, req, res, next) {
 
     return res.status(500).json({
         status: 500,
-        message: 'Internal Server Error!',
+        message: 'Internal Server Error',
         error: err.message
     });
 }
@@ -101,7 +101,7 @@ function checkId(req, res, next) {
 
 app.get('/courses', asyncHandler((req, res) => {
     // return res.send(req.query);
-    throw Error('Database Error occurred!');
+    return;
 }));
 
 app.get('/courses/:courseId', checkId, (req, res) => {

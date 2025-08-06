@@ -27,9 +27,9 @@ const database = {
 // ========================= Error Handling ========================
 function errorHandler(err, req, res, next) {
 
-    return res.status(500).json({
+    return res.json({
         status: 500,
-        message: 'Internal Server Error!',
+        message: 'Internal Server Error',
         error: err.message
     });
 }
@@ -99,11 +99,9 @@ function checkId(req, res, next) {
 
 
 
-app.get('/courses', asyncHandler((req, res) => {
-    // return res.send(req.query);
-    throw Error('Database Error occurred!');
-}));
-
+app.get('/courses', logger, (req, res) => {
+    return res.send(req.query);
+});
 app.get('/courses/:courseId', checkId, (req, res) => {
     const courseId = req.params.courseId;
     const course = database.courses.find((item) => {
@@ -113,7 +111,7 @@ app.get('/courses/:courseId', checkId, (req, res) => {
     return res.json(course);
 });
 app.post('/courses', authorize, (req, res) => {
-    return res.send(req.body);
+    // return res.send(req.body);
 });
 
 

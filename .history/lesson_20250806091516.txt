@@ -14,21 +14,3 @@ bodyParser.json() : សម្រាប់ JSON requests (application/json)
 
 ការប្រើប្រាស់ npm install express-async-handler គឺសម្រាប់ ដោះស្រាយកំហុសក្នុង async/await functions នៅក្នុង Express.js ដោយមិនចាំបាច់ប្រើ try/catch ក្នុងរាល់ route។
 វាជា middleware មួយសម្រាប់ Express ដែលអាច ដាក់ទៅជុំវិញ async function ដើម្បីបញ្ចូនកំហុសទៅកាន់ Express error handler (next(err)), ដោយស្វ័យប្រវត្តិ។
-
-- 🚫 មិនប្រើ express-async-handler:
-app.get('/user', async (req, res, next) => {
-    try {
-        const user = await User.findById(req.params.id);
-        res.json(user);
-    } catch (err) {
-        next(err);
-    }
-});
-
--ប្រើ express-async-handler:
-const asyncHandler = require('express-async-handler');
-
-app.get('/user', asyncHandler(async (req, res) => {
-    const user = await User.findById(req.params.id);
-    res.json(user);
-}));

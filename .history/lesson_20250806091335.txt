@@ -1,0 +1,13 @@
+
+node init
+npm install express --save
+npm install -g nodemon
+
+-> npm install body-parser :
+នៅពេលអ្នកផ្ញើ form ឬ JSON ទៅកាន់ server (POST/PUT requests), Express ជាមូលដ្ឋាន មិនអាចយល់ពី data ក្នុង request body បានទេ។
+ដូច្នេះ body-parser មកជួយ decode / parse request body អោយបានជា object ដែល Express អាចប្រើបាននៅក្នុង req.body។
+
+bodyParser.urlencoded() : សម្រាប់ form HTML (application/x-www-form-urlencoded)
+bodyParser.json() : សម្រាប់ JSON requests (application/json)
+
+-> npm install express-async-

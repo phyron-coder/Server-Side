@@ -4,10 +4,6 @@ const app = express();
 
 const asyncHandler = require('express-async-handler');
 
-
-
-
-
 const database = {
     users: [
         { id: 1, name: 'Phon Phyron', email: 'phonphyron@example.com' },
@@ -23,15 +19,16 @@ const database = {
 
 
 
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded());
 
-// ========================= Error Handling ========================
+// parse application/json
+app.use(bodyParser.json());
+
+
 function errorHandler(err, req, res, next) {
-
-    return res.status(500).json({
-        status: 500,
-        message: 'Internal Server Error!',
-        error: err.message
-    });
+    console.error('Error occurred:', err.message);
+    return res.json(err());
 }
 
 
@@ -43,16 +40,10 @@ function getDB(req, res, next) {
 app.get('/db', asyncHandler((req, res, next) => {
     // Simulating a database error
     return getDB();
-}));
+}), errorHandler);
 
 
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded());
 
-// parse application/json
-app.use(bodyParser.json());
-
-app.use(logger);
 
 
 
@@ -67,6 +58,7 @@ app.get('/users', (req, res) => {
 });
 
 // ======================== Courses API ========================
+app.use(logger);
 
 function logger(req, res, next) {
     // console.log(req);
@@ -99,11 +91,9 @@ function checkId(req, res, next) {
 
 
 
-app.get('/courses', asyncHandler((req, res) => {
-    // return res.send(req.query);
-    throw Error('Database Error occurred!');
-}));
-
+app.get('/courses', logger, (req, res) => {
+    return res.send(req.query);
+});
 app.get('/courses/:courseId', checkId, (req, res) => {
     const courseId = req.params.courseId;
     const course = database.courses.find((item) => {
@@ -115,6 +105,24 @@ app.get('/courses/:courseId', checkId, (req, res) => {
 app.post('/courses', authorize, (req, res) => {
     return res.send(req.body);
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -135,13 +143,6 @@ app.get('/about', (req, res) => {
 app.post('/about', (req, res) => {
     return res.send(req.body);
 });
-
-
-
-
-app.use(errorHandler);
-
-
 
 app.listen(3000, () => {
     console.log('Server running on port 3000');
