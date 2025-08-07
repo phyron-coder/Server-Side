@@ -1,0 +1,11 @@
+const mongoose = require('mongoose');
+
+const Course = new mongoose.Schema({
+    page: { type: Number },
+    title: { type: String },
+    genre: { type: String },
+    author: { type: String },
+    isbn: { type: String },
+})
+
+module.exports = mongoose.model('Course', Course);
