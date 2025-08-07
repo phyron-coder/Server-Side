@@ -107,12 +107,9 @@ function checkId(req, res, next) {
 
 
 app.get('/courses', asyncHandler((req, res) => {
-    return res.send(req.query);
+    // return res.send(req.query);
+    throw Error('Database Error occurred!');
 }));
-
-app.get('/allcourses', (req, res) => {
-    return res.json(database.courses);
-});
 
 app.get('/courses/:id', checkId, (req, res) => {
     const id = req.params.id;
@@ -121,16 +118,6 @@ app.get('/courses/:id', checkId, (req, res) => {
     })
 
     return res.json(course);
-});
-app.delete('/courses/:id', checkId, (req, res) => {
-    const id = req.params.id;
-    database.courses = database.courses.filter((item) => {
-        return item.id !== parseInt(id);
-    });
-    return res.json({
-        status: 200,
-        message: 'Deleted successfully!'
-    });
 });
 app.post('/courses', authorize, (req, res) => {
     return res.send(req.body);
